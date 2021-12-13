@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "836441457981",
+    "firebase_url": "https://immolux-e5923-default-rtdb.firebaseio.com",
+    "project_id": "immolux-e5923",
+    "storage_bucket": "immolux-e5923.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836441457981:android:65d4cf12136a36f637f154",
+        "android_client_info": {
+          "package_name": "com.immoluxclient.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836441457981-nk4eg7jjbrtf72aussruo7f055rnh06c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmqYdADLLcyAsugh-2gq5BfAUqSmOiMnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836441457981-nk4eg7jjbrtf72aussruo7f055rnh06c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836441457981:android:d156d21cafa0457237f154",
+        "android_client_info": {
+          "package_name": "com.inotix.immolux"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836441457981-nk4eg7jjbrtf72aussruo7f055rnh06c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmqYdADLLcyAsugh-2gq5BfAUqSmOiMnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836441457981-nk4eg7jjbrtf72aussruo7f055rnh06c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
