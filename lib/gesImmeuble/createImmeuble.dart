@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:provider/provider.dart';
 
 class CreateImmeuble extends StatefulWidget {
   final firebase = FirebaseFirestore.instance;
@@ -168,8 +167,14 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
   String typeservice = 'Achat';
   var items2 = ['Achat', 'Location', 'Baille'];
 
-  String typeImeuble = 'Etage';
-  var items8 = ['Etage', 'Rez de chaussé', 'Bureau'];
+  String Cat = 'Terrain';
+  var items8 = ['Terrain', 'Appartement', 'Immeuble'];
+
+  String doc = 'Titre foncier';
+  var itemsdoc = ['Titre foncier', '3 Tampons', 'Recu','Rien'];
+
+  String type = 'Meublé';
+  var itemstype = ['Meublé', 'Non Meublé', 'Agricole','Hurbain','Bureau','Magain'];
 
   final TextEditingController idI = TextEditingController();
   final TextEditingController descI = TextEditingController();
@@ -179,6 +184,12 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
   final TextEditingController numPI = TextEditingController();
   final TextEditingController priI = TextEditingController();
   final TextEditingController locI = TextEditingController();
+  final TextEditingController nbrchambre = TextEditingController();
+  final TextEditingController nbrdouche = TextEditingController();
+  final TextEditingController com = TextEditingController();
+  final TextEditingController comdemarch = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -192,59 +203,11 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                 children: [
                   buildGridView(),
                   SizedBox(height: 20),
-                  TextField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    controller: descI,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
-                    decoration: InputDecoration(
-                      labelText: "Description".toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: lat,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
-                    decoration: InputDecoration(
-                      labelText: "Latitude".toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: long,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
-                    decoration: InputDecoration(
-                      labelText: "Longitude".toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  Row(
+                      Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Type Immeuble'.toString(),
+                        'Categorie'.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
@@ -252,7 +215,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                             fontFamily: "Poppins"),
                       ),
                       DropdownButton(
-                        value: typeImeuble,
+                        value: Cat,
                         icon: Icon(Icons.keyboard_arrow_down),
                         items: items8.map((String items8) {
                           return DropdownMenuItem(
@@ -260,7 +223,34 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                         }).toList(),
                         onChanged: (String newValue) {
                           setState(() {
-                            typeImeuble = newValue;
+                           Cat = newValue;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Type'.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontFamily: "Poppins"),
+                      ),
+                      DropdownButton(
+                        value: type,
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        items: itemstype.map((String itemstype) {
+                          return DropdownMenuItem(
+                              value: itemstype, child: Text(itemstype));
+                        }).toList(),
+                        onChanged: (String newValue) {
+                          setState(() {
+                          type = newValue;
                           });
                         },
                       ),
@@ -293,7 +283,35 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 15),
+                   SizedBox(height: 15),
+               Cat!='Appartement'?   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Documents'.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontFamily: "Poppins"),
+                      ),
+                      DropdownButton(
+                        value: doc,
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        items: itemsdoc.map((String itemsdoc) {
+                          return DropdownMenuItem(
+                              value: itemsdoc, child: Text(itemsdoc));
+                        }).toList(),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            doc = newValue;
+                          });
+                        },
+                      ),
+                    ],
+                  ):SizedBox(height: 0,),
+                  
+               
                   TextField(
                     keyboardType: TextInputType.name,
                     controller: nomPI,
@@ -335,12 +353,76 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                         fontSize: 17,
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
-                      labelText: "Prix Immeuble".toString(),
+                      labelText: "Prix".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
+                  SizedBox(height: 15),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    controller: com,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Commissions".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    controller: comdemarch,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Commissions demarcheur".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                 Cat!='Terrain'? SizedBox(height: 15):SizedBox(height: 0),
+                 Cat!='Terrain'?TextField(
+                    keyboardType: TextInputType.number,
+                    controller: nbrchambre,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Nombre de chambre".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ):Container(height: 1,),
+                  Cat!='Terrain'? SizedBox(height: 15):SizedBox(height: 0),
+                  Cat!='Terrain'? TextField(
+                    keyboardType: TextInputType.number,
+                    controller: nbrdouche,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Nombre de douche".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ):SizedBox(height: 0),
                   SizedBox(height: 15),
                   TextField(
                     keyboardType: TextInputType.streetAddress,
@@ -357,7 +439,57 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
+                  TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: descI,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Description".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  TextFormField(
+                    
+                    keyboardType: TextInputType.number,
+                    controller: lat,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Latitude".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: long,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Longitude".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                 SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.all(40.0),
                     child: Row(
@@ -396,7 +528,9 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                             await documents.set({
                               'id': documents.id,
                               "description": descI.text.toString(),
-                              "type": typeImeuble,
+                              "categorie": Cat,
+                              "document": doc,
+                               "type": type,
                               "type_service": typeservice,
                               "nom_proprio": nomPI.text.toString(),
                               "num_proprio": numPI.text,
@@ -405,6 +539,15 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                               "longitude": long.text,
                               "localisation": locI.text,
                               "image": ImageLinkList,
+                              'id_proprio':'',
+                              'nbr_chambre':nbrchambre.text/* nbrchambre.toString().length>0?nbrchambre:'' */,
+                              'nbr_douche':nbrdouche.text/* nbrdouche.toString().length>0?nbrdouche:'' */,
+                              'commission':com.text,
+                              'com_demarche':comdemarch.text,
+                              'disponible':true,
+                              'active':true,
+                              'nbr':0, 
+                           'create_date':Timestamp.fromDate(DateTime.now())
                             });
                             Navigator.pop(context);
                           },

@@ -5,13 +5,23 @@ class ModelImmeuble {
       description,
       latitude,
       longitude,
-      typeimmeuble,
+      type,
       typeservice,
       nom_proprio,
       num_proprio,
+      /* ajout */
+      categorie,
+      comdemarch,
+      com,
+      document,
+      nbr_chambre,
+      nbr_douche,
+      id_proprio,
+     
+/* end ajour */
       pri,
       locI;
-
+bool active, disponible;
   List<dynamic> image;
 
   ModelImmeuble({
@@ -19,12 +29,21 @@ class ModelImmeuble {
     this.description,
     this.latitude,
     this.longitude,
-    this.typeimmeuble,
+    this.type,
     this.typeservice,
     this.nom_proprio,
     this.num_proprio,
     this.pri,
     this.locI,
     this.image,
+   this. categorie,
+     this. comdemarch,
+     this. com,
+      this.document,
+     this. nbr_chambre,
+     this. nbr_douche,
+      this.id_proprio,
+    this.  active,
+    this.disponible,
   });
 }
