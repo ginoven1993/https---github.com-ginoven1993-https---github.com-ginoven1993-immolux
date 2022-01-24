@@ -2,21 +2,24 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:immolux_imobilier/Modeles/modelappart.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:provider/provider.dart';
 
-class CreateAppart extends StatefulWidget {
-  final firebase = FirebaseFirestore.instance;
+class UpdateAppart extends StatefulWidget {
+  // ignore: non_constant_identifier_names
+  final ModelAppart apart;
 
+  UpdateAppart({@required this.apart});
   @override
-  _CreateAppartState createState() => _CreateAppartState();
+  _UpdateAppartState createState() => _UpdateAppartState();
 }
 
-class _CreateAppartState extends State<CreateAppart> {
+class _UpdateAppartState extends State<UpdateAppart> {
   static const _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
@@ -150,7 +153,7 @@ class _CreateAppartState extends State<CreateAppart> {
                           radius: 13,
                           child: Icon(
                             Icons.close,
-                            color: Colors.blue[800],
+                            color: Colors.lightBlueAccent,
                           ),
                         ),
                       ),
@@ -164,7 +167,6 @@ class _CreateAppartState extends State<CreateAppart> {
 
   List<File> listFiles = <File>[null];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   String categappart = 'Maison';
   var items30 = ['Maison', 'Villa'];
 
@@ -175,13 +177,28 @@ class _CreateAppartState extends State<CreateAppart> {
   var items50 = ['Meuble', 'Non Meuble', 'Cours Unique', 'Cours Commune'];
 
   final TextEditingController descA = TextEditingController();
-  final TextEditingController lat = TextEditingController();
-  final TextEditingController long = TextEditingController();
   final TextEditingController chambre = TextEditingController();
   final TextEditingController nomC = TextEditingController();
   final TextEditingController numP = TextEditingController();
   final TextEditingController priA = TextEditingController();
+  TextEditingController lat = TextEditingController();
+  TextEditingController long = TextEditingController();
   final TextEditingController locA = TextEditingController();
+  String typA, typS;
+
+  void initState() {
+    descA.text = widget.apart.description;
+    chambre.text = widget.apart.nbrecham;
+    nomC.text = widget.apart.nom_proprio;
+    numP.text = widget.apart.num_proprio;
+    priA.text = widget.apart.pri;
+    locA.text = widget.apart.locA;
+    typA = widget.apart.typeappart;
+    typS = widget.apart.typeservice;
+    lat.text = widget.apart.latitude;
+    long.text = widget.apart.longitude;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,17 +210,75 @@ class _CreateAppartState extends State<CreateAppart> {
               key: _formKey,
               child: Column(
                 children: [
+                  GridView.count(
+                    shrinkWrap: true,
+                    primary: false,
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
+                    children: List.generate(widget.apart.image.length, (index) {
+                      return widget.apart.image[index] == null
+                          ? Stack(
+                              children: [
+                                Container(
+                                    width: 100,
+                                    height: 100,
+                                    color: Colors.grey),
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        getImageGallery();
+                                      });
+                                    },
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.camera_alt,
+                                        color: Colors.white,
+                                        size: 45,
+                                      ),
+                                    )),
+                              ],
+                            )
+                          : Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl: widget.apart.image[index],
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      widget.apart.image
+                                          .remove(widget.apart.image[index]);
+                                    });
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 13,
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                    }),
+                  ),
                   buildGridView(),
                   SizedBox(height: 20),
                   TextField(
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     controller: descA,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Description".toString(),
                       border: OutlineInputBorder(
@@ -215,11 +290,6 @@ class _CreateAppartState extends State<CreateAppart> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     controller: lat,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Latitude".toString(),
                       border: OutlineInputBorder(
@@ -231,11 +301,6 @@ class _CreateAppartState extends State<CreateAppart> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     controller: long,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Longitude".toString(),
                       border: OutlineInputBorder(
@@ -246,14 +311,7 @@ class _CreateAppartState extends State<CreateAppart> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Type Service'.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontFamily: "Poppins"),
-                      ),
+                      Text('Type Service'.toString()),
                       DropdownButton(
                         value: typeservice,
                         icon: Icon(Icons.keyboard_arrow_down),
@@ -273,14 +331,7 @@ class _CreateAppartState extends State<CreateAppart> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Categorie Appartement'.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontFamily: "Poppins"),
-                      ),
+                      Text('Categorie Appartement'.toString()),
                       DropdownButton(
                         value: categappart,
                         icon: Icon(Icons.keyboard_arrow_down),
@@ -300,14 +351,7 @@ class _CreateAppartState extends State<CreateAppart> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Type Appartement',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontFamily: "Poppins"),
-                      ),
+                      Text('Type Appartement'),
                       DropdownButton(
                         value: typeappart,
                         icon: Icon(Icons.keyboard_arrow_down),
@@ -327,11 +371,6 @@ class _CreateAppartState extends State<CreateAppart> {
                   TextField(
                     keyboardType: TextInputType.number,
                     controller: chambre,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Nombre de chambres".toString(),
                       border: OutlineInputBorder(
@@ -343,11 +382,6 @@ class _CreateAppartState extends State<CreateAppart> {
                   TextField(
                     keyboardType: TextInputType.text,
                     controller: nomC,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Nom proprietaire".toString(),
                       border: OutlineInputBorder(
@@ -359,11 +393,6 @@ class _CreateAppartState extends State<CreateAppart> {
                   TextField(
                     keyboardType: TextInputType.phone,
                     controller: numP,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Numéro du propriétaire".toString(),
                       border: OutlineInputBorder(
@@ -375,11 +404,6 @@ class _CreateAppartState extends State<CreateAppart> {
                   TextField(
                     keyboardType: TextInputType.number,
                     controller: priA,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Prix Appartement".toString(),
                       border: OutlineInputBorder(
@@ -391,11 +415,6 @@ class _CreateAppartState extends State<CreateAppart> {
                   TextField(
                     keyboardType: TextInputType.streetAddress,
                     controller: locA,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Localisation Appartement".toString(),
                       border: OutlineInputBorder(
@@ -412,7 +431,7 @@ class _CreateAppartState extends State<CreateAppart> {
                         ElevatedButton(
                           style: TextButton.styleFrom(
                               minimumSize: Size(256, 55),
-                              backgroundColor: Colors.blue[800]),
+                              backgroundColor: Colors.lightBlueAccent),
                           onPressed: () async {
                             List<String> ImageLinkList = <String>[];
                             for (int i = 0; i < listFiles.length - 1; i++) {
@@ -424,6 +443,7 @@ class _CreateAppartState extends State<CreateAppart> {
                                   .child('Uploads/Appartement/$appartId.jpg');
                               UploadTask uploadTask =
                                   firebaseStorageRef.putFile(listFiles[i]);
+
                               TaskSnapshot taskSnapshot =
                                   await uploadTask.whenComplete(() => {});
 
@@ -432,13 +452,14 @@ class _CreateAppartState extends State<CreateAppart> {
                               taskSnapshot.ref.getDownloadURL().then(
                                     (value) {},
                                   );
-                              ImageLinkList.add(appartImageLink);
+                              widget.apart.image.add(appartImageLink);
                             }
+
                             final documents = FirebaseFirestore.instance
                                 .collection('Appartement')
-                                .doc();
+                                .doc(widget.apart.id);
 
-                            await documents.set({
+                            await documents.update({
                               'id': documents.id,
                               "description": descA.text.toString(),
                               "type_service": typeservice,
@@ -448,20 +469,18 @@ class _CreateAppartState extends State<CreateAppart> {
                               "nom_proprio": nomC.text.toString(),
                               "num_proprio": numP.text,
                               "prix": priA.text,
+                              "localisation": locA.text.toString(),
                               "latitude": lat.text,
                               "longitude": long.text,
-                              "localisation": locA.text.toString(),
-                              "image": ImageLinkList,
+                              "image": widget.apart.image,
                             });
                             Navigator.pop(context);
                           },
                           child: Text(
-                            "Créer",
+                            "Modifier",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: "Poppins"),
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ],

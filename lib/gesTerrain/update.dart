@@ -2,21 +2,24 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:immolux_imobilier/Modeles/modelterrain.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:provider/provider.dart';
 
-class CreateAppart extends StatefulWidget {
-  final firebase = FirebaseFirestore.instance;
+class UpdateTerrain extends StatefulWidget {
+  // ignore: non_constant_identifier_names
+  final ModelTerrain ter;
+  UpdateTerrain({@required this.ter});
 
   @override
-  _CreateAppartState createState() => _CreateAppartState();
+  _UpdateTerrainState createState() => _UpdateTerrainState();
 }
 
-class _CreateAppartState extends State<CreateAppart> {
+class _UpdateTerrainState extends State<UpdateTerrain> {
   static const _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
@@ -34,8 +37,8 @@ class _CreateAppartState extends State<CreateAppart> {
 
   List<String> selected = [];
 
-  String appartId = '';
-  String appartImageLink = '';
+  String terrainId = '';
+  String terrainImageLink = '';
   List<File> fileImageArray = [];
 
   List<Asset> images = List<Asset>();
@@ -150,7 +153,7 @@ class _CreateAppartState extends State<CreateAppart> {
                           radius: 13,
                           child: Icon(
                             Icons.close,
-                            color: Colors.blue[800],
+                            color: Colors.lightBlueAccent,
                           ),
                         ),
                       ),
@@ -165,23 +168,33 @@ class _CreateAppartState extends State<CreateAppart> {
   List<File> listFiles = <File>[null];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String categappart = 'Maison';
-  var items30 = ['Maison', 'Villa'];
-
+  String typeterrain = 'Urbain';
+  var items1 = ['Urbain', 'Agricole'];
   String typeservice = 'Achat';
-  var items40 = ['Achat', 'Location', 'Baille'];
+  var items2 = ['Achat', 'Location', 'Baille'];
 
-  String typeappart = 'Meuble';
-  var items50 = ['Meuble', 'Non Meuble', 'Cours Unique', 'Cours Commune'];
+  TextEditingController descT = TextEditingController();
+  TextEditingController typT = TextEditingController();
+  TextEditingController nomP = TextEditingController();
+  TextEditingController numPT = TextEditingController();
+  TextEditingController priT = TextEditingController();
+  TextEditingController locT = TextEditingController();
+  TextEditingController typS = TextEditingController();
+  TextEditingController lat = TextEditingController();
+  TextEditingController long = TextEditingController();
 
-  final TextEditingController descA = TextEditingController();
-  final TextEditingController lat = TextEditingController();
-  final TextEditingController long = TextEditingController();
-  final TextEditingController chambre = TextEditingController();
-  final TextEditingController nomC = TextEditingController();
-  final TextEditingController numP = TextEditingController();
-  final TextEditingController priA = TextEditingController();
-  final TextEditingController locA = TextEditingController();
+  void initState() {
+    descT.text = widget.ter.description;
+    typT.text = widget.ter.typeterrain;
+    nomP.text = widget.ter.nom_proprio;
+    numPT.text = widget.ter.numPT;
+    priT.text = widget.ter.pri;
+    locT.text = widget.ter.locT;
+    typS.text = widget.ter.typeservice;
+    lat.text = widget.ter.latitude;
+    long.text = widget.ter.longitude;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,16 +206,78 @@ class _CreateAppartState extends State<CreateAppart> {
               key: _formKey,
               child: Column(
                 children: [
+                  GridView.count(
+                    shrinkWrap: true,
+                    primary: false,
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 2,
+                    mainAxisSpacing: 2,
+                    children: List.generate(widget.ter.image.length, (index) {
+                      return widget.ter.image[index] == null
+                          ? Stack(
+                              children: [
+                                Container(
+                                    width: 100,
+                                    height: 100,
+                                    color: Colors.grey),
+                                InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        getImageGallery();
+                                      });
+                                    },
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.camera_alt,
+                                        color: Colors.white,
+                                        size: 45,
+                                      ),
+                                    )),
+                              ],
+                            )
+                          : Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl: widget.ter.image[index],
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      widget.ter.image
+                                          .remove(widget.ter.image[index]);
+                                    });
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 13,
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                    }),
+                  ),
                   buildGridView(),
                   SizedBox(height: 20),
                   TextField(
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    controller: descA,
-                    style: TextStyle(
+                    controller: descT,style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
-                        fontSize: 17,
+                       
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Description".toString(),
@@ -214,11 +289,9 @@ class _CreateAppartState extends State<CreateAppart> {
                   SizedBox(height: 15),
                   TextFormField(
                     keyboardType: TextInputType.number,
-                    controller: lat,
-                    style: TextStyle(
+                    controller: lat,style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
+                        color: Colors.black,       
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Latitude".toString(),
@@ -230,11 +303,9 @@ class _CreateAppartState extends State<CreateAppart> {
                   SizedBox(height: 5),
                   TextFormField(
                     keyboardType: TextInputType.number,
-                    controller: long,
-                    style: TextStyle(
+                    controller: long,style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
+                        color: Colors.black,       
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Longitude".toString(),
@@ -246,20 +317,39 @@ class _CreateAppartState extends State<CreateAppart> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Type Service'.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontFamily: "Poppins"),
+                      Text('Type de Terrain'.toString(),style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,       
+                        fontFamily: "Poppins"),),
+                      DropdownButton(
+                        value: typeterrain,
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        items: items1.map((String items1) {
+                          return DropdownMenuItem(
+                              value: items1, child: Text(items1));
+                        }).toList(),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            typeterrain = newValue;
+                          });
+                        },
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Type de Service'.toString(),style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,       
+                        fontFamily: "Poppins"),),
                       DropdownButton(
                         value: typeservice,
                         icon: Icon(Icons.keyboard_arrow_down),
-                        items: items40.map((String items40) {
+                        items: items2.map((String items2) {
                           return DropdownMenuItem(
-                              value: items40, child: Text(items40));
+                              value: items2, child: Text(items2));
                         }).toList(),
                         onChanged: (String newValue) {
                           setState(() {
@@ -270,86 +360,14 @@ class _CreateAppartState extends State<CreateAppart> {
                     ],
                   ),
                   SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Categorie Appartement'.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontFamily: "Poppins"),
-                      ),
-                      DropdownButton(
-                        value: categappart,
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        items: items30.map((String items30) {
-                          return DropdownMenuItem(
-                              value: items30, child: Text(items30));
-                        }).toList(),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            categappart = newValue;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Type Appartement',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontFamily: "Poppins"),
-                      ),
-                      DropdownButton(
-                        value: typeappart,
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        items: items50.map((String items50) {
-                          return DropdownMenuItem(
-                              value: items50, child: Text(items50));
-                        }).toList(),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            typeappart = newValue;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
                   TextField(
-                    keyboardType: TextInputType.number,
-                    controller: chambre,
-                    style: TextStyle(
+                    keyboardType: TextInputType.name,
+                    controller: nomP,style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
+                        color: Colors.black,       
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
-                      labelText: "Nombre de chambres".toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  TextField(
-                    keyboardType: TextInputType.text,
-                    controller: nomC,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontFamily: "Poppins"),
-                    decoration: InputDecoration(
-                      labelText: "Nom proprietaire".toString(),
+                      labelText: "Nom du propietaire".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -358,11 +376,9 @@ class _CreateAppartState extends State<CreateAppart> {
                   SizedBox(height: 15),
                   TextField(
                     keyboardType: TextInputType.phone,
-                    controller: numP,
-                    style: TextStyle(
+                    controller: numPT,style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
+                        color: Colors.black,       
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Numéro du propriétaire".toString(),
@@ -374,14 +390,12 @@ class _CreateAppartState extends State<CreateAppart> {
                   SizedBox(height: 15),
                   TextField(
                     keyboardType: TextInputType.number,
-                    controller: priA,
-                    style: TextStyle(
+                    controller: priT,style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
+                        color: Colors.black,       
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
-                      labelText: "Prix Appartement".toString(),
+                      labelText: "Prix du terrain".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -390,14 +404,12 @@ class _CreateAppartState extends State<CreateAppart> {
                   SizedBox(height: 15),
                   TextField(
                     keyboardType: TextInputType.streetAddress,
-                    controller: locA,
-                    style: TextStyle(
+                    controller: locT,style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize: 17,
+                        color: Colors.black,       
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
-                      labelText: "Localisation Appartement".toString(),
+                      labelText: "Localisation du terrain".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -405,63 +417,63 @@ class _CreateAppartState extends State<CreateAppart> {
                   ),
                   SizedBox(height: 20),
                   Padding(
-                    padding: EdgeInsets.all(40.0),
+                    padding: EdgeInsets.all(30.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
                           style: TextButton.styleFrom(
-                              minimumSize: Size(256, 55),
+                              minimumSize: Size(276, 55),
                               backgroundColor: Colors.blue[800]),
                           onPressed: () async {
                             List<String> ImageLinkList = <String>[];
                             for (int i = 0; i < listFiles.length - 1; i++) {
                               /* String fileName = basename(listFiles[i].path); */
-                              appartId = CreateCryptoRandomString();
+
+                              terrainId = CreateCryptoRandomString();
                               Reference firebaseStorageRef = FirebaseStorage
                                   .instance
                                   .ref()
-                                  .child('Uploads/Appartement/$appartId.jpg');
+                                  .child('Uploads/Terrain/$terrainId.jpg');
                               UploadTask uploadTask =
                                   firebaseStorageRef.putFile(listFiles[i]);
+
                               TaskSnapshot taskSnapshot =
                                   await uploadTask.whenComplete(() => {});
 
-                              appartImageLink =
+                              terrainImageLink =
                                   await taskSnapshot.ref.getDownloadURL();
                               taskSnapshot.ref.getDownloadURL().then(
                                     (value) {},
                                   );
-                              ImageLinkList.add(appartImageLink);
+                              widget.ter.image.add(terrainImageLink);
                             }
-                            final documents = FirebaseFirestore.instance
-                                .collection('Appartement')
-                                .doc();
 
-                            await documents.set({
+                            final documents = FirebaseFirestore.instance
+                                .collection('Terrain')
+                                .doc(widget.ter.id);
+
+                            await documents.update({
                               'id': documents.id,
-                              "description": descA.text.toString(),
+                              "description": descT.text.toString(),
+                              "type": typeterrain,
                               "type_service": typeservice,
-                              "Categorie_Appartement": categappart,
-                              "type": typeappart,
-                              "Nombre_de_chambres": chambre.text,
-                              "nom_proprio": nomC.text.toString(),
-                              "num_proprio": numP.text,
-                              "prix": priA.text,
+                              "nom_proprio": nomP.text.toString(),
+                              "num_proprio": numPT.text,
+                              "prix": priT.text,
+                              "localisation": locT.text,
                               "latitude": lat.text,
                               "longitude": long.text,
-                              "localisation": locA.text.toString(),
-                              "image": ImageLinkList,
+                              "image": widget.ter.image,
                             });
                             Navigator.pop(context);
                           },
                           child: Text(
-                            "Créer",
+                            "Modifier",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: "Poppins"),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,fontSize: 20,       
+                        fontFamily: "Poppins"),
                           ),
                         ),
                       ],
