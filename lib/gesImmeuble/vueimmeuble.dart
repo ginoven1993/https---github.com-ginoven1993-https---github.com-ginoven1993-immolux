@@ -30,7 +30,7 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
     num = widget.imeub.num_proprio;
     loc = widget.imeub.locI;
     typSI = widget.imeub.typeservice;
-    typeI = widget.imeub.typeimmeuble;
+    typeI = widget.imeub.type;
     descrip = widget.imeub.description;
     lat = widget.imeub.latitude;
     long = widget.imeub.longitude;
