@@ -280,24 +280,23 @@ class _RegisterState extends State<Register> {
                                       BorderRadius.all(Radius.circular(20.0))),
                               elevation: 5.0,
                               height: 40,
-                              onPressed: () async {
-                                final documents = FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc();
-
-                                await documents.set({
-                                  'id': documents.id,
-                                  'nom': nom.text.toString(),
-                                  'prenom': prenom.text.toString(),
-                                  'numero': numero.text,
-                                  'Email': email.text,
-                                  'Mot_de_Passe': password.text,
-                                });
+                              onPressed: () {
                                 CircularProgressIndicator();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
                                 signUp(
                                   email.text,
                                   password.text,
                                 );
+                                  nom.clear();
+                                  prenom.clear();
+                                  numero.clear();
+                                  email.clear();
+                                  password.clear();
                               },
                               child: Text(
                                 "S'INSCRIRE",
@@ -363,6 +362,18 @@ class _RegisterState extends State<Register> {
                     ),
                   )
                 });
+               User user = userCredential.user;
+                final documents = FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(user.uid);
+                                await documents.set({
+                                  'id': documents.id,
+                                  'nom': nom.text.toString(),
+                                  'prenom': prenom.text.toString(),
+                                  'numero': numero.text,
+                                  'Email': email,
+                                  'Mot_de_Passe': password,
+                                  });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'mot de Passe-faible') {
           print('Le mot de Passe donné est faible.');
