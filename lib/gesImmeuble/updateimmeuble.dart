@@ -582,6 +582,17 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
                               minimumSize: Size(256, 55),
                               backgroundColor: Colors.lightBlueAccent),
                           onPressed: () async {
+                            var collection =  FirebaseFirestore.instance
+                                .collection('Immeuble')
+                              ;
+                          var querySnapshots = await collection.get();
+                          for (var doc in querySnapshots.docs) {
+                            await doc.reference.update({
+                              'vedette': false,
+                              'promo':false,
+                              'remise':0
+                            });
+                          } 
                             List<String> ImageLinkList = <String>[];
                             for (int i = 0; i < listFiles.length - 1; i++) {
                               /* String fileName = basename(listFiles[i].path); */
