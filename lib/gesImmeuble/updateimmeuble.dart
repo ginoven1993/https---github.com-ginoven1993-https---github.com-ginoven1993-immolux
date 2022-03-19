@@ -190,6 +190,7 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
   final TextEditingController nbrdouche = TextEditingController();
   final TextEditingController com = TextEditingController();
   final TextEditingController comdemarch = TextEditingController();
+  final TextEditingController shortdesc = TextEditingController();
   String typI, typS;
 
   void initState() {
@@ -197,6 +198,7 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
     Cat=widget.imeub.categorie;
     doc=widget.imeub.document;
     type=widget.imeub.type;
+    shortdesc.text=widget.imeub.shortdesc;
 
 
  descI.text = widget.imeub.description;
@@ -405,6 +407,23 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
                       labelText: "Nom du propietaire".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                   TextField(
+                    keyboardType: TextInputType.multiline,
+                    controller: shortdesc,
+                     maxLines: null,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Courte description".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -627,6 +646,7 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
                               "document": doc,
                               "type": type,
                               "type_service": typeservice,
+                              'short_desc':shortdesc.text,
                               "nom_proprio": nomPI.text.toString(),
                               "num_proprio": numPI.text,
                               "prix": priI.text,

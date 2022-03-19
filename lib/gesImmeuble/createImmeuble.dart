@@ -188,6 +188,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
   final TextEditingController nbrdouche = TextEditingController();
   final TextEditingController com = TextEditingController();
   final TextEditingController comdemarch = TextEditingController();
+  final TextEditingController shortdesc = TextEditingController();
 
 
   @override
@@ -310,10 +311,26 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                       ),
                     ],
                   ):SizedBox(height: 0,),
-                  
+                   TextField(
+                    keyboardType: TextInputType.name,
+                    controller: shortdesc,
+                     maxLines: null,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Courte description".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
                
                   TextField(
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.multiline,
                     controller: nomPI,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -533,6 +550,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                                "type": type,
                               "type_service": typeservice,
                               "nom_proprio": nomPI.text.toString(),
+                              'short_desc':shortdesc.text,
                               "num_proprio": numPI.text,
                               "prix": priI.text,
                               "latitude": lat.text,

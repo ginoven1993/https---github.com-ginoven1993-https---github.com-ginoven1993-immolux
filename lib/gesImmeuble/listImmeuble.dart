@@ -589,6 +589,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                               description: doc['description'],
                                               type: doc['type'],
                                               typeservice: doc['type_service'],
+                                              shortdesc:doc['short_desc'] ,
                                               nom_proprio: doc['nom_proprio'],
                                               num_proprio: doc['num_proprio'],
                                               pri: doc['prix'],
