@@ -198,18 +198,18 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
     Cat=widget.imeub.categorie;
     doc=widget.imeub.document;
     type=widget.imeub.type;
-<<<<<<< HEAD
+
     com.text = widget.imeub.com;
     comdemarch.text = widget.imeub.comdemarch;
     nbrchambre.text = widget.imeub.nbr_chambre;
     nbrdouche.text = widget.imeub.nbr_douche;
     descI.text = widget.imeub.description;
-=======
+
     shortdesc.text=widget.imeub.shortdesc;
 
 
  descI.text = widget.imeub.description;
->>>>>>> 0e64185c353b2cffc82736d61718d8363ac08884
+
     nomPI.text = widget.imeub.nom_proprio;
     numPI.text = widget.imeub.num_proprio;
     priI.text = widget.imeub.pri;

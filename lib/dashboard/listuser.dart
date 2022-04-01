@@ -8,6 +8,7 @@ class ListClient extends StatefulWidget {
 }
 
 class _ListClientState extends State<ListClient> {
+  int state=0;
 
  showAlert(BuildContext context, title, content, Widget deleteButton) {
     Widget cancelButton = FlatButton(
@@ -32,6 +33,7 @@ class _ListClientState extends State<ListClient> {
  
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
          appBar: AppBar(
         backgroundColor: Colors.blue[800],
@@ -46,7 +48,250 @@ class _ListClientState extends State<ListClient> {
         centerTitle: true,
       ),
    
-   body: StreamBuilder<QuerySnapshot>(
+   body:Column(
+     children: [
+          Container(
+              height: 59.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.only(top: 0.0, bottom: 15)),
+                  Expanded(
+                      child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.symmetric(horizontal: 3)),
+                      InkWell(
+                          onTap: () {
+                            setState(() {
+                              state = 0;
+                            });
+                            print(state);
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 4.0, left: 6.0),
+                                child: Container(
+                                    height: 29.5,
+                                    decoration: BoxDecoration(
+                                      color: state == 0
+                                          ? Colors.blue[800]
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4.5,
+                                          spreadRadius: 1.0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Center(
+                                        child: Text(
+                                          "Tous",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: state == 0
+                                                  ? Colors.white
+                                                  : Colors.blue[800],
+                                              fontFamily: "Sans"),
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          )),
+                      InkWell(
+                          onTap: () {
+                            setState(() {
+                              state = 1;
+                            });
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 4.0, left: 6.0),
+                                child: Container(
+                                    height: 29.5,
+                                    decoration: BoxDecoration(
+                                      color: state == 1
+                                          ? Colors.blue[800]
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4.5,
+                                          spreadRadius: 1.0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Center(
+                                        child: Text(
+                                          "Clients",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: state == 1
+                                                  ? Colors.white
+                                                  : Colors.blue[800],
+                                              fontFamily: "Sans"),
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          )),
+                      InkWell(
+                          onTap: () {
+                            setState(() {
+                              state = 2;
+                            });
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 4.0, left: 6.0),
+                                child: Container(
+                                    height: 29.5,
+                                    decoration: BoxDecoration(
+                                      color: state == 2
+                                          ? Colors.blue[800]
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4.5,
+                                          spreadRadius: 1.0,
+                                        )
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Center(
+                                        child: Text(
+                                          "Demarcheur",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: state == 2
+                                                  ? Colors.white
+                                                  : Colors.blue[800],
+                                              fontFamily: "Sans"),
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          )),
+                      InkWell(
+                          onTap: () {
+                            setState(() {
+                              state = 3;
+                            });
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 4.0, left: 6.0),
+                                child: Container(
+                                  height: 29.5,
+                                  width: 90.0,
+                                  decoration: BoxDecoration(
+                                    color: state == 3
+                                        ? Colors.blue[800]
+                                        : Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 4.5,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Proprietaire",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: state == 3
+                                              ? Colors.white
+                                              : Colors.blue[800],
+                                          fontFamily: "Sans"),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                      InkWell(
+                          onTap: () {
+                            setState(() {
+                              state = 4;
+                            });
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 4.0, left: 6.0),
+                                child: Container(
+                                  height: 29.5,
+                                  width: 90.0,
+                                  decoration: BoxDecoration(
+                                    color: state == '4'
+                                        ? Colors.blue[800]
+                                        : Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 4.5,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Admin",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: state == 4
+                                              ? Colors.white
+                                              : Colors.blue[800],
+                                          fontFamily: "Sans"),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                     ],
+                  ))
+                ],
+              ),
+            ),
+           
+
+      
+    StreamBuilder<QuerySnapshot>(
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -58,6 +303,8 @@ class _ListClientState extends State<ListClient> {
         }
 
         return ListView(
+          primary: false,
+          shrinkWrap: true,
           children: snapshot.data.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data() as Map<String, dynamic>;
             return Padding(
@@ -166,7 +413,12 @@ class _ListClientState extends State<ListClient> {
           }).toList(),
         );
       },
-     ),
+     )
+    ,
+       
+      ],
+   )
+   
     );
   }
   }
