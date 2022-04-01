@@ -190,6 +190,7 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
   final TextEditingController nbrdouche = TextEditingController();
   final TextEditingController com = TextEditingController();
   final TextEditingController comdemarch = TextEditingController();
+  final TextEditingController shortdesc = TextEditingController();
   String typI, typS;
 
   void initState() {
@@ -197,11 +198,18 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
     Cat=widget.imeub.categorie;
     doc=widget.imeub.document;
     type=widget.imeub.type;
+<<<<<<< HEAD
     com.text = widget.imeub.com;
     comdemarch.text = widget.imeub.comdemarch;
     nbrchambre.text = widget.imeub.nbr_chambre;
     nbrdouche.text = widget.imeub.nbr_douche;
     descI.text = widget.imeub.description;
+=======
+    shortdesc.text=widget.imeub.shortdesc;
+
+
+ descI.text = widget.imeub.description;
+>>>>>>> 0e64185c353b2cffc82736d61718d8363ac08884
     nomPI.text = widget.imeub.nom_proprio;
     numPI.text = widget.imeub.num_proprio;
     priI.text = widget.imeub.pri;
@@ -413,6 +421,23 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
                     ),
                   ),
                   SizedBox(height: 15),
+                   TextField(
+                    keyboardType: TextInputType.multiline,
+                    controller: shortdesc,
+                     maxLines: null,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: "Poppins"),
+                    decoration: InputDecoration(
+                      labelText: "Courte description".toString(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15),
                   TextField(
                     keyboardType: TextInputType.phone,
                     controller: numPI,
@@ -584,6 +609,17 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
                               minimumSize: Size(256, 55),
                               backgroundColor: Colors.lightBlueAccent),
                           onPressed: () async {
+                            var collection =  FirebaseFirestore.instance
+                                .collection('Immeuble')
+                              ;
+                          var querySnapshots = await collection.get();
+                          for (var doc in querySnapshots.docs) {
+                            await doc.reference.update({
+                              'vedette': false,
+                              'promo':false,
+                              'remise':0
+                            });
+                          } 
                             List<String> ImageLinkList = <String>[];
                             for (int i = 0; i < listFiles.length - 1; i++) {
                               /* String fileName = basename(listFiles[i].path); */
@@ -618,6 +654,7 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
                               "document": doc,
                               "type": type,
                               "type_service": typeservice,
+                              'short_desc':shortdesc.text,
                               "nom_proprio": nomPI.text.toString(),
                               "num_proprio": numPI.text,
                               "prix": priI.text,

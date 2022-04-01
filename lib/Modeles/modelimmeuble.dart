@@ -8,6 +8,7 @@ class ModelImmeuble {
       latitude,
       longitude,
       type,
+      shortdesc,
       typeservice,
       nom_proprio,
       num_proprio,
@@ -28,6 +29,7 @@ bool active, disponible;
 
   ModelImmeuble({
     this.id,
+    this.shortdesc,
     this.description,
     this.latitude,
     this.longitude,
