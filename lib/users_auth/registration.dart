@@ -29,6 +29,9 @@ class _RegisterState extends State<Register> {
   TextEditingController numero = new TextEditingController();
   final TextEditingController email = new TextEditingController();
   final TextEditingController mobile = new TextEditingController();
+  String type = 'Admin';
+  var itemstype = ['Admin', 'Client'];
+
   bool _isObscure = true;
   bool _isObscure2 = true;
   File file;
@@ -268,6 +271,34 @@ class _RegisterState extends State<Register> {
                           onChanged: (value) {},
                         ),
                         SizedBox(
+                          height: 10,
+                        ),
+                         Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                           children: [
+                             Text('Role',
+                                style: TextStyle(
+                                   color: Colors.white,
+                                   fontWeight: FontWeight.w600,
+                                   fontSize: 18,
+                                  fontFamily: "Poppins"),
+                                ),
+                             DropdownButton(
+                                value: type,
+                                icon: Icon(Icons.keyboard_arrow_down),
+                                items: itemstype.map((String itemstype) {
+                                      return DropdownMenuItem(
+                                          value: itemstype, child: Text(itemstype));
+                                }).toList(),
+                                onChanged: (String newValue) {
+                                      setState(() {
+                                      type = newValue;
+                                      });
+                                },
+                             ),
+                           ],
+                         ),
+                          SizedBox(
                           height: 20,
                         ),
                         Row(

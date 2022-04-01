@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       initialData: null,
       child: MaterialApp(
+        theme: ThemeData(fontFamily: 'Poppins'),
         debugShowCheckedModeBanner: false,
         home: Delay(),
       ),

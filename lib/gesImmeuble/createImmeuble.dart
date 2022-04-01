@@ -149,7 +149,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                           radius: 13,
                           child: Icon(
                             Icons.close,
-                            color: Colors.lightBlueAccent,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -174,7 +174,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
   var itemsdoc = ['Titre foncier', '3 Tampons', 'Recu','Rien'];
 
   String type = 'Meublé';
-  var itemstype = ['Meublé', 'Non Meublé', 'Agricole','Hurbain','Bureau','Magain'];
+  var itemstype = ['Meublé', 'Non Meublé', 'Agricole','Urbain','Bureau','Magasin'];
 
   final TextEditingController idI = TextEditingController();
   final TextEditingController descI = TextEditingController();
@@ -369,7 +369,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                         fontSize: 17,
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
-                      labelText: "Commissions".toString(),
+                      labelText: "Commissions en %".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -385,7 +385,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                         fontSize: 17,
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
-                      labelText: "Commissions demarcheur".toString(),
+                      labelText: "Commissions demarcheur en %".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -433,7 +433,7 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                         fontSize: 17,
                         fontFamily: "Poppins"),
                     decoration: InputDecoration(
-                      labelText: "Localisation Immeuble".toString(),
+                      labelText: "Localisation".toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -546,7 +546,10 @@ class _CreateImmeubleState extends State<CreateImmeuble> {
                               'com_demarche':comdemarch.text,
                               'disponible':true,
                               'active':true,
-                              'nbr':0, 
+                              'nbr':0,
+                              'promo':false,
+                              'remise':0,
+                              'vedette':false, 
                            'create_date':Timestamp.fromDate(DateTime.now())
                             });
                             Navigator.pop(context);

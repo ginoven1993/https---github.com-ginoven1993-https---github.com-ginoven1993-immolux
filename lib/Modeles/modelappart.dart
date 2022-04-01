@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:immolux_imobilier/Modeles/modelimmeuble.dart';
 
 class ModelAppart {
   final String id,
@@ -32,3 +34,19 @@ class ModelAppart {
     this.image,
   });
 }
+
+List<ModelImmeuble> totalappart = [];
+
+ totalAppart() async {
+    await FirebaseFirestore.instance
+        .collection('Immeuble')
+        .where('categorie', isEqualTo: 'Appartement')
+        .get()
+        .then((snapshot) {
+          if(snapshot.docs.length>0){
+            for(var doc in snapshot.docs){
+              totalappart.add(ModelImmeuble(id: doc.get('id')));
+            }
+          }
+        });
+    }

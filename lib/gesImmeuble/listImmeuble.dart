@@ -139,7 +139,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                           EdgeInsets.symmetric(horizontal: 20),
                                       child: Center(
                                         child: Text(
-                                          "Achats",
+                                          "Terrains",
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               color: state == '2'
@@ -184,7 +184,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                           EdgeInsets.symmetric(horizontal: 20),
                                       child: Center(
                                         child: Text(
-                                          "Locations",
+                                          "Appartements",
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               color: state == '3'
@@ -227,7 +227,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Baille",
+                                      "Immeubles",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           color: state == '5'
@@ -270,7 +270,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Desactiver",
+                                      "Active",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           color: state == '6'
@@ -313,7 +313,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Activer",
+                                      "Disponible",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           color: state == '8'
@@ -356,7 +356,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "En attente",
+                                      "En Attente",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           color: state == '7'
@@ -382,29 +382,32 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                     : state == '2'
                         ? FirebaseFirestore.instance
                             .collection('Immeuble')
-                            .where('type_service', isEqualTo: 'Achat')
+                            .where('categorie', isEqualTo: 'Terrain')
                             .snapshots()
                         : state == '3'
                             ? FirebaseFirestore.instance
                                 .collection('Immeuble')
-                                .where('type_service', isEqualTo: 'Location')
+                                .where('categorie', isEqualTo: 'Appartement')
                                 .snapshots()
                             : state == '5'
                                 ? FirebaseFirestore.instance
                                     .collection('Immeuble')
-                                    .where('type_service', isEqualTo: 'Baille')
+                                    .where('categorie', isEqualTo: 'Immeuble')
                                     .snapshots()
                                 : state == '6'
                                     ? FirebaseFirestore.instance
                                         .collection('Immeuble')
+                                        .where('active', isEqualTo: true)
                                         .snapshots()
                                     : state == '7'
                                         ? FirebaseFirestore.instance
                                             .collection('Immeuble')
+                                            .where('active', isEqualTo: 'false')
                                             .snapshots()
                                         : state == '8'
                                             ? FirebaseFirestore.instance
                                                 .collection('Immeuble')
+                                                .where('disponible', isEqualTo: true)
                                                 .snapshots()
                                             : FirebaseFirestore.instance
                                                 .collection('Immeuble')
@@ -443,6 +446,12 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                       imeub: ModelImmeuble(
                                         id: doc['id'],
                                         description: doc['description'],
+                                        categorie: doc['categorie'],
+                                        com: doc['commission'],
+                                        comdemarch: doc['com_demarche'],
+                                        document: doc['document'],
+                                        nbr_chambre: doc['nbr_chambre'],
+                                        nbr_douche: doc['nbr_douche'],
                                         type: doc['type'],
                                         typeservice: doc['type_service'],
                                         nom_proprio: doc['nom_proprio'],
@@ -561,6 +570,15 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
                                               pri: doc['prix'],
                                               locI: doc['localisation'],
                                               image: doc['image'],
+                                              categorie:doc['categorie'],
+                                              comdemarch:doc['com_demarche'],
+                                              com:doc['commission'],
+                                              document:doc['document'],
+                                              nbr_chambre:doc['nbr_chambre'],
+                                              nbr_douche:doc['nbr_douche'],
+                                              id_proprio:doc['id_proprio'],
+                                              active:doc['active'],
+                                              disponible:doc['disponible']
                                             ),
                                           ),
                                         ),
@@ -640,7 +658,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+  /*    floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
           Navigator.pushReplacement(
@@ -656,7 +674,7 @@ class _HomeImmeubleState extends State<HomeImmeuble> {
           Icons.add,
           color: Colors.white,
         ),
-      ),
+      ),*/
     );
   }
 }

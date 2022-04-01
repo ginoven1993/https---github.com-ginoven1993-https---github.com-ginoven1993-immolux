@@ -19,8 +19,7 @@ class ViewImmeuble extends StatefulWidget {
 }
 
 class _ViewImmeubleState extends State<ViewImmeuble> {
-  String priI, loc, nom, num, typSI, typeI, descrip, lat, long, idE;
-  int etoile = 4;
+  String priI, loc, nom, cate, comme, comdem, doc, num, typSI, typeI, descrip, lat, long, idE;
   List<dynamic> imageList = [];
 
   void initState() {
@@ -35,6 +34,10 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
     lat = widget.imeub.latitude;
     long = widget.imeub.longitude;
     idE = widget.imeub.id;
+    cate = widget.imeub.categorie;
+    comme= widget.imeub.com;
+    comdem = widget.imeub.comdemarch;
+    doc = widget.imeub.document;
   }
 
   @override
@@ -62,11 +65,11 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
     return Scaffold(
       body: ListView(children: <Widget>[
         image_slide,
-        SizedBox(height: 10),
+        SizedBox(height: 1),
         Positioned(
-          top: 300,
+          top: 250,
           child: Container(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+            padding: EdgeInsets.only(left: 10, right: 5, top: 20),
             width: MediaQuery.of(context).size.width,
             height: 700,
             decoration: BoxDecoration(
@@ -82,7 +85,7 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Statut: " + typSI,
+                    Text("Categorie: "+ cate,
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: "Poppins",
@@ -105,10 +108,10 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Row(
                   children: [
-                    Icon(Icons.location_on, color: Colors.white),
+                    Icon(Icons.location_on, color: Colors.black),
                     Text(
                       "" + loc,
                       style: TextStyle(
@@ -118,20 +121,80 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
+                SizedBox(height: 20),
+               Row(
                   children: [
-                    Wrap(
-                      children: List.generate(5, (index) {
-                        return Icon(Icons.star,
-                            color: index < etoile
-                                ? Colors.yellowAccent
-                                : Colors.white);
-                      }),
+                   Text(
+                      "Commisison: ",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Row(
+                      children: [
+                        Text(
+                          ""+ comme,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                          ),
+                        ),Text(
+                          "%",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                   Row(
+                  children: [
+                   Text(
+                      "Commisison demarcheur: ",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Row(
+                      children: [
+                        Text(
+                          " "+ comdem,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                        Text(
+                          "%",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                   Row(
+                  children: [
+                   Text(
+                      "Document : ",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Poppins",
+                      ),
                     ),
                     SizedBox(width: 10),
                     Text(
-                      " 4,0",
+                      " "+ doc,
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: "Poppins",
@@ -242,11 +305,11 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                             ),
                           );
                         },
-                        child: Text('Localisation Immeuble',
+                        child: Text('Localisation '+cate,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.blue[800],
-                              fontSize: 15,
+                              fontSize: 14,
                               fontFamily: "Poppins",
                             )),
                       ),

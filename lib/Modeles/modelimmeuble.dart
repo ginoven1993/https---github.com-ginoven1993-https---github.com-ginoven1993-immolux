@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ModelImmeuble {
   final String id,
+      
       description,
       latitude,
       longitude,
@@ -47,3 +49,18 @@ bool active, disponible;
     this.disponible,
   });
 }
+
+List<ModelImmeuble> totalimmeuble = [];
+
+  totalImmeuble() async {
+    await FirebaseFirestore.instance
+        .collection('Immeuble')
+        .where('categorie', isEqualTo: 'Immeuble')
+         .get().then((snapshot){
+        if(snapshot.docs.length>0){
+          for(var doc in snapshot.docs){
+             totalimmeuble.add(ModelImmeuble(id: doc.get('id')));
+          }
+        }
+      });
+    }

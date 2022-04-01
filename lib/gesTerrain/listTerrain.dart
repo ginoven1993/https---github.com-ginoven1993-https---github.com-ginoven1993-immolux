@@ -265,7 +265,7 @@ class _HomeTerrainState extends State<HomeTerrain> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      "Urbain",
+                                      "Hurbain",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           color: state == '6'
@@ -372,27 +372,30 @@ class _HomeTerrainState extends State<HomeTerrain> {
             StreamBuilder(
                 stream: state == '1'
                     ? FirebaseFirestore.instance
-                        .collection('Terrain')
+                        .collection('Immeuble')
+                        .where('categorie', isEqualTo: 'Terrain')
                         .snapshots()
                     : state == '2'
                         ? FirebaseFirestore.instance
-                            .collection('Terrain')
+                            .collection('Immeuble')
+                            .where('categorie', isEqualTo: 'Terrain')
                             .where('type_service', isEqualTo: 'Achat')
                             .snapshots()
                         : state == '3'
                             ? FirebaseFirestore.instance
                                 .collection('Terrain')
+                                .where('categorie', isEqualTo: 'Terrain')
                                 .where('type_service', isEqualTo: 'Location')
                                 .snapshots()
                             : state == '5'
                                 ? FirebaseFirestore.instance
                                     .collection('Terrain')
+                                    .where('categorie', isEqualTo: 'Terrain')
                                     .where('type_service', isEqualTo: 'Baille')
                                     .snapshots()
                                 : state == '6'
                                     ? FirebaseFirestore.instance
                                         .collection('Terrain')
-                                        .where('type', isEqualTo: 'Urbain')
                                         .snapshots()
                                     : state == '7'
                                         ? FirebaseFirestore.instance

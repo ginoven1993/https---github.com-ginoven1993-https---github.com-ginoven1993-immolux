@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:immolux_imobilier/Modeles/modelimmeuble.dart';
 
 class ModelTerrain {
   final String id,
@@ -28,3 +30,19 @@ class ModelTerrain {
     this.image,
   });
 }
+
+List<ModelImmeuble> totalterrain = [];
+
+ totalTerrain() async {
+    await FirebaseFirestore.instance
+        .collection('Immeuble')
+        .where('categorie', isEqualTo: 'Terrain')
+        .get().then((snapshot){
+          if(snapshot.docs.length>0){
+            for(var doc in snapshot.docs){
+              totalterrain.add(ModelImmeuble(id: doc.get('id')));
+            }
+          }
+        });
+    
+    }

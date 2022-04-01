@@ -374,17 +374,17 @@ class _HomeMagasinState extends State<HomeMagasin> {
                         .snapshots()
                     : state == '2'
                         ? FirebaseFirestore.instance
-                            .collection('Magasin')
+                            .collection('Immeuble')
                             .where('type_service', isEqualTo: 'Achat')
                             .snapshots()
                         : state == '3'
                             ? FirebaseFirestore.instance
-                                .collection('Magasin')
+                                .collection('Immeuble')
                                 .where('type_service', isEqualTo: 'Location')
                                 .snapshots()
                             : state == '5'
                                 ? FirebaseFirestore.instance
-                                    .collection('Magasin')
+                                    .collection('Immeuble')
                                     .where('type_service', isEqualTo: 'Baille')
                                     .snapshots()
                                 : state == '6'
@@ -614,7 +614,7 @@ class _HomeMagasinState extends State<HomeMagasin> {
                                             child: Text("Supprimer"),
                                             onPressed: () async {
                                               await FirebaseFirestore.instance
-                                                  .collection('Magasin')
+                                                  .collection('Immeuble')
                                                   .doc(doc['id'])
                                                   .delete();
                                               Navigator.pop(context);

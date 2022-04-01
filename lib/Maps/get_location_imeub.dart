@@ -49,7 +49,7 @@ class _GetLocationImeubState extends State<GetLocationImeub> {
       latitude = position.latitude.toString();
       longitude = position.longitude.toString();
     });
-    print("Les coordonnées du terrain");
+    print("Les coordonnées de immeuble");
     print(latitude);
     print(longitude);
     final firestore =

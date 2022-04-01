@@ -177,7 +177,7 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
   var itemsdoc = ['Titre foncier', '3 Tampons', 'Recu','Rien'];
 
   String type ;
-  var itemstype = ['Meublé', 'Non Meublé', 'Agricole','Hurbain','Bureau','Magain'];
+  var itemstype = ['Meublé', 'Non Meublé', 'Agricole','Urbain','Bureau','Magasin'];
 
   final TextEditingController descI = TextEditingController();
   TextEditingController lat = TextEditingController();
@@ -197,9 +197,11 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
     Cat=widget.imeub.categorie;
     doc=widget.imeub.document;
     type=widget.imeub.type;
-
-
- descI.text = widget.imeub.description;
+    com.text = widget.imeub.com;
+    comdemarch.text = widget.imeub.comdemarch;
+    nbrchambre.text = widget.imeub.nbr_chambre;
+    nbrdouche.text = widget.imeub.nbr_douche;
+    descI.text = widget.imeub.description;
     nomPI.text = widget.imeub.nom_proprio;
     numPI.text = widget.imeub.num_proprio;
     priI.text = widget.imeub.pri;
@@ -636,9 +638,10 @@ class _UpdateImmeubleState extends State<UpdateImmeuble> {
                           },
                           child: Text(
                             "Modifier",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+                           style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,fontSize: 20,       
+                        fontFamily: "Poppins"),
                           ),
                         ),
                         SizedBox(height: 20),
