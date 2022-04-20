@@ -109,7 +109,7 @@ class _MenuState extends State<Menu> {
         backgroundColor: Colors.blue[800],
         elevation: 4.1,
         title: const Text(
-          'Immolux_Immobilier',
+          'Home',
           style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Colors.white,
