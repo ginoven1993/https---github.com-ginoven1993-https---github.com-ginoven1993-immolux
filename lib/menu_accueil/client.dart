@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:immolux_imobilier/gesImmeuble/createImmeuble.dart';
-import 'package:immolux_imobilier/gesImmeuble/listImmeuble.dart';
 class OptionClient extends StatefulWidget {
 
   @override
@@ -74,7 +73,7 @@ class _OptionClientState extends State<OptionClient> {
                                         ),
                   ),
                    InkWell(
-                     onTap: () {
+                   /*   onTap: () {
                               Navigator.pushReplacement(
                          context,
                             MaterialPageRoute(
@@ -83,7 +82,7 @@ class _OptionClientState extends State<OptionClient> {
                               },
                             ),
                         );
-                     },
+                     }, */
                      child: Card(
                           elevation: 4.5,
                           clipBehavior: Clip.antiAlias,

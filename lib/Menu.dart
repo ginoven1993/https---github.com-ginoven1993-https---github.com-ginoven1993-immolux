@@ -4,9 +4,7 @@ import 'package:immolux_imobilier/Modeles/modelappart.dart';
 import 'package:immolux_imobilier/Modeles/modelimmeuble.dart';
 import 'package:immolux_imobilier/Modeles/modelterrain.dart';
 import 'package:immolux_imobilier/Modeles/modeluser.dart';
-import 'package:immolux_imobilier/dashboard/listappart.dart';
-import 'package:immolux_imobilier/dashboard/listimmeuble.dart';
-import 'package:immolux_imobilier/dashboard/listterrain.dart';
+import 'package:immolux_imobilier/gesImmeuble/listappart.dart';
 import 'package:immolux_imobilier/menu_accueil/client.dart';
 import 'package:immolux_imobilier/dashboard/listuser.dart';
 import 'package:immolux_imobilier/slide.dart';
@@ -166,10 +164,10 @@ class _MenuState extends State<Menu> {
                                      ),
                    ),
                   InkWell(
-                     onTap: () {Navigator.push(context, 
+                    /*  onTap: () {Navigator.push(context, 
                           MaterialPageRoute(builder: (context) => OptionImmeuble(),
                         ),
-                      );},
+                      );}, */
                      child: _buildSingleContainer(
                       context: context,
                       count: totalimmeuble.length,

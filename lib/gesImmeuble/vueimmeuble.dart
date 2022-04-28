@@ -1,12 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:immolux_imobilier/Maps/get_location.dart';
 import 'package:immolux_imobilier/Maps/get_location_imeub.dart';
 import 'package:immolux_imobilier/Modeles/modelimmeuble.dart';
-
-import 'package:shimmer/shimmer.dart';
 
 class ViewImmeuble extends StatefulWidget {
   final ModelImmeuble imeub;
@@ -134,13 +130,13 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                     SizedBox(width: 10),
                     Row(
                       children: [
-                        Text(
+                       Text(
                           ""+ comme,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: "Poppins",
                           ),
-                        ),Text(
+                        ), Text(
                           "%",
                           style: TextStyle(
                             color: Colors.white,
@@ -164,13 +160,13 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                     SizedBox(width: 10),
                     Row(
                       children: [
-                        Text(
+                         Text(
                           " "+ comdem,
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: "Poppins",
                           ),
-                        ),
+                        ), 
                         Text(
                           "%",
                           style: TextStyle(
@@ -183,7 +179,7 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                   ],
                 ),
                 SizedBox(height: 10),
-                   Row(
+                  Row(
                   children: [
                    Text(
                       "Document : ",
@@ -193,17 +189,17 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                       ),
                     ),
                     SizedBox(width: 10),
-                    Text(
+                     Text(
                       " "+ doc,
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: "Poppins",
                       ),
-                    ),
+                    ), 
                   ],
                 ),
                 SizedBox(height: 25),
-                Text('Description',
+                  Text('Description',
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: "Poppins",
@@ -240,7 +236,7 @@ class _ViewImmeubleState extends State<ViewImmeuble> {
                             fontWeight: FontWeight.bold)),
                   ],
                 ),
-                SizedBox(height: 25),
+                 SizedBox(height: 25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
