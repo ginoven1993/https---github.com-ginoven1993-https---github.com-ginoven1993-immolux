@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:immolux_imobilier/Modeles/modelappart.dart';
 
 import '../Modeles/modelimmeuble.dart';
+import 'CreateImmauble1.dart';
 import 'createImmeuble.dart';
 import 'vueimmeuble.dart';
 class OptionAppart extends StatefulWidget {
@@ -43,7 +44,7 @@ return str;
         backgroundColor: Colors.blue[800],
         elevation: 5.1,
         title: const Text(
-          'Liste des Appartements',
+          'Liste des immeubles',
           style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Colors.white,
@@ -514,7 +515,7 @@ return str;
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return CreateImmeuble();
+                                    return /* CreateImmeuble */StoreSuscription();
                                   },
                                 ),
                               );
